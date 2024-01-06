@@ -1,3 +1,4 @@
+;; goes in ~/.emacs
 (require 'package)
 (require 'emacsql-sqlite)
 (add-to-list 'package-archives
