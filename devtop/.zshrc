@@ -16,7 +16,7 @@ source $ZSH/oh-my-zsh.sh
 # User configuration
 
 # Preferred editor for local and remote sessions
-export EDITOR='emacs'
+export EDITOR='emacsclient -t'
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"

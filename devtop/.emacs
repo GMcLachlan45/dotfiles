@@ -1,4 +1,3 @@
-;; goes in ~/.emacs
 (require 'package)
 (require 'emacsql-sqlite)
 (add-to-list 'package-archives
@@ -15,7 +14,26 @@
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 ;; Numbers in progam mode
-(add-hook 'prog-mode-hook 'display-line-numbers-mode)
+;;(global-display-line-numbers-mode 1)
+(global-linum-mode t)
+(setq linum-mode-inhibit-modes-list '(eshell-mode
+                                      shell-mode
+                                      erc-mode
+                                      jabber-roster-mode
+                                      jabber-chat-mode
+                                      gnus-group-mode
+                                      gnus-summary-mode
+                                      gnus-article-mode
+                                      dired-mode))
+
+(defadvice linum-on (around linum-on-inhibit-for-modes)
+  "Stop the load of linum-mode for some major modes."
+    (unless (member major-mode linum-mode-inhibit-modes-list)
+      ad-do-it))
+
+
+(ad-activate 'linum-on)
+;; (add-hook 'prog-mode-hook 'display-line-numbers-mode)
 ;; remove useless spaces
 (add-hook 'before-save-hook
           'delete-trailing-whitespace)
@@ -47,6 +65,10 @@
 (add-to-list 'auto-mode-alist '("\\.vue\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.ts\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.html\\.twig\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
 
 ;; Setting the font style
 (setq default-frame-alist '((font . "Iosevka SS09")))
@@ -74,7 +96,7 @@
 
 
 
-
+;;(add-hook 'LaTeX-mode-hook #'latex-extra-mode)
 (setq latex-run-command "pdflatex")
 (setq tex-dvi-view-command "(f=*; pdflatex \"${f%.dvi}.tex\" && open \"${f%.dvi}.pdf\")")
 
@@ -89,7 +111,10 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages '(emacsql-sqlite org-superstar magit org-roam leuven-theme))
+ '(auth-source-save-behavior nil)
+ '(dired-listing-switches "-laBGh")
+ '(package-selected-packages
+    '(web-mode latex-extra monkeytype emacsql-sqlite org-superstar magit org-roam leuven-theme))
  '(warning-suppress-log-types '((auto-save))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -97,3 +122,5 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+(put 'upcase-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
